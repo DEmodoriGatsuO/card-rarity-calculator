@@ -1,4 +1,4 @@
-// 高レア度カードの計算パラメータ
+// High rarity card calculation parameters
 const RARITY_PARAMS = {
     'R-6': {
       symbol: '⭐⭐',
@@ -35,7 +35,7 @@ const RARITY_PARAMS = {
     }
   };
   
-  // コンボボーナス
+  // Combo bonus parameters
   const COMBO_BONUS = {
     'R67': 50,
     'R68': 100,
@@ -43,49 +43,31 @@ const RARITY_PARAMS = {
     'R678': 300
   };
   
-  // ティア定義
+  // Tier definitions
   const TIERS = [
-    { min: 10000, name: 'レジェンダリー', className: 'tier-legendary' },
-    { min: 5000, name: 'ミシック', className: 'tier-mythic' },
-    { min: 2000, name: 'エピック', className: 'tier-epic' },
-    { min: 1000, name: 'レア', className: 'tier-rare' },
-    { min: 200, name: 'アンコモン', className: 'tier-uncommon' },
-    { min: 0, name: 'コモン', className: 'tier-common' }
+    { min: 10000, name: 'Legendary', className: 'tier-legendary' },
+    { min: 5000, name: 'Mythic', className: 'tier-mythic' },
+    { min: 2000, name: 'Epic', className: 'tier-epic' },
+    { min: 1000, name: 'Rare', className: 'tier-rare' },
+    { min: 200, name: 'Uncommon', className: 'tier-uncommon' },
+    { min: 0, name: 'Common', className: 'tier-common' }
   ];
   
-  // DOMが読み込まれたら実行
+  // Execute when DOM is loaded
   document.addEventListener('DOMContentLoaded', function() {
-    // イベントリスナー
+    // Set up event listeners
     setupEventListeners();
     
-    // ローカルストレージからデータを読み込む
+    // Load data from local storage
     loadFromLocalStorage();
   });
   
-  // イベントリスナーのセットアップ
+  // Set up event listeners
   function setupEventListeners() {
-    // 計算ボタン
+    // Calculate button
     document.getElementById('calculate-btn').addEventListener('click', calculateRarityScore);
     
-    // 増加ボタン
-    document.querySelectorAll('.increment').forEach(button => {
-      button.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        input.value = Math.min(999, parseInt(input.value || 0) + 1);
-      });
-    });
-    
-    // 減少ボタン
-    document.querySelectorAll('.decrement').forEach(button => {
-      button.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        input.value = Math.max(0, parseInt(input.value || 0) - 1);
-      });
-    });
-    
-    // 入力フィールドの変更
+    // Input fields change
     document.querySelectorAll('input[type="number"]').forEach(input => {
       input.addEventListener('change', function() {
         if (this.value < 0) this.value = 0;
@@ -94,7 +76,7 @@ const RARITY_PARAMS = {
     });
   }
   
-  // ローカルストレージからデータを読み込む
+  // Load data from local storage
   function loadFromLocalStorage() {
     const savedData = localStorage.getItem('cardRarityCalc');
     if (savedData) {
@@ -104,27 +86,27 @@ const RARITY_PARAMS = {
         document.getElementById('r7-count').value = data.r7Count || 0;
         document.getElementById('r8-count').value = data.r8Count || 0;
         
-        // 前回の計算結果を表示
+        // Display previous calculation results
         if (data.result) {
           displayResults(data.result);
           document.getElementById('results-container').classList.remove('hidden');
         }
       } catch (e) {
-        console.error('保存データの読み込みに失敗しました', e);
+        console.error('Failed to load saved data', e);
       }
     }
   }
   
-  // ローカルストレージにデータを保存
+  // Save data to local storage
   function saveToLocalStorage(data) {
     try {
       localStorage.setItem('cardRarityCalc', JSON.stringify(data));
     } catch (e) {
-      console.error('データの保存に失敗しました', e);
+      console.error('Failed to save data', e);
     }
   }
   
-  // 枚数ごとの重み計算
+  // Calculate progressive weight for each card
   function calculateProgressiveWeight(rarity, count) {
     if (count <= 0) return 0;
     
@@ -142,7 +124,7 @@ const RARITY_PARAMS = {
     return totalWeight;
   }
   
-  // 閾値ボーナス計算
+  // Calculate threshold bonus
   function calculateThresholdBonus(rarity, count) {
     let bonus = 0;
     const thresholds = RARITY_PARAMS[rarity].thresholds;
@@ -156,7 +138,7 @@ const RARITY_PARAMS = {
     return bonus;
   }
   
-  // コンボボーナス計算
+  // Calculate combo bonus
   function calculateComboBonus(r6Count, r7Count, r8Count) {
     let bonus = 0;
     
@@ -173,7 +155,7 @@ const RARITY_PARAMS = {
     return bonus;
   }
   
-  // ティア判定
+  // Determine tier based on score
   function determineTier(score) {
     for (const tier of TIERS) {
       if (score >= tier.min) {
@@ -183,34 +165,34 @@ const RARITY_PARAMS = {
     return TIERS[TIERS.length - 1];
   }
   
-  // メイン計算関数
+  // Main calculation function
   function calculateRarityScore() {
     const r6Count = parseInt(document.getElementById('r6-count').value) || 0;
     const r7Count = parseInt(document.getElementById('r7-count').value) || 0;
     const r8Count = parseInt(document.getElementById('r8-count').value) || 0;
     
-    // 基本重み計算
+    // Calculate base weights
     const r6Weight = calculateProgressiveWeight('R-6', r6Count);
     const r7Weight = calculateProgressiveWeight('R-7', r7Count);
     const r8Weight = calculateProgressiveWeight('R-8', r8Count);
     
-    // 閾値ボーナス計算
+    // Calculate threshold bonuses
     const r6Bonus = calculateThresholdBonus('R-6', r6Count);
     const r7Bonus = calculateThresholdBonus('R-7', r7Count);
     const r8Bonus = calculateThresholdBonus('R-8', r8Count);
     
-    // コンボボーナス計算
+    // Calculate combo bonus
     const comboBonus = calculateComboBonus(r6Count, r7Count, r8Count);
     
-    // 総合スコア計算
+    // Calculate total score
     const totalScore = r6Weight + r7Weight + r8Weight + 
                       r6Bonus + r7Bonus + r8Bonus + 
                       comboBonus;
     
-    // ティア判定
+    // Determine tier
     const tier = determineTier(totalScore);
     
-    // 結果オブジェクト
+    // Result object
     const result = {
       r6: { count: r6Count, weight: r6Weight, bonus: r6Bonus, symbol: RARITY_PARAMS['R-6'].symbol },
       r7: { count: r7Count, weight: r7Weight, bonus: r7Bonus, symbol: RARITY_PARAMS['R-7'].symbol },
@@ -220,19 +202,19 @@ const RARITY_PARAMS = {
       tier
     };
     
-    // 結果表示
+    // Display results
     displayResults(result);
     
-    // 結果セクションを表示
+    // Show results section
     const resultsContainer = document.getElementById('results-container');
     resultsContainer.classList.remove('hidden');
     
-    // スクロールアニメーション
+    // Scroll animation
     setTimeout(() => {
       resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 300);
     
-    // ローカルストレージに保存
+    // Save to local storage
     saveToLocalStorage({
       r6Count,
       r7Count,
@@ -241,24 +223,23 @@ const RARITY_PARAMS = {
     });
   }
   
-  // 結果表示関数
+  // Display results function
   function displayResults(results) {
     const resultDetails = document.getElementById('result-details');
     const tierResult = document.getElementById('tier-result');
     
-    // 詳細結果表示
+    // Display detailed results
     resultDetails.innerHTML = `
       <table>
         <tr>
-          <th>カテゴリ</th>
-          <th>枚数</th>
-          <th>基本重み</th>
-          <th>閾値ボーナス</th>
+          <th>Category</th>
+          <th>Count</th>
+          <th>Base Weight</th>
+          <th>Threshold Bonus</th>
         </tr>
         <tr>
           <td>
-            <span class="rarity-symbol">${results.r6.symbol}</span>
-            <span class="rarity-name">R-6</span>
+            <span class="table-symbol">${results.r6.symbol}</span>
           </td>
           <td>${results.r6.count}</td>
           <td>${Math.round(results.r6.weight).toLocaleString()}</td>
@@ -266,8 +247,7 @@ const RARITY_PARAMS = {
         </tr>
         <tr>
           <td>
-            <span class="rarity-symbol">${results.r7.symbol}</span>
-            <span class="rarity-name">R-7</span>
+            <span class="table-symbol">${results.r7.symbol}</span>
           </td>
           <td>${results.r7.count}</td>
           <td>${Math.round(results.r7.weight).toLocaleString()}</td>
@@ -275,36 +255,35 @@ const RARITY_PARAMS = {
         </tr>
         <tr>
           <td>
-            <span class="rarity-symbol">${results.r8.symbol}</span>
-            <span class="rarity-name">R-8</span>
+            <span class="table-symbol">${results.r8.symbol}</span>
           </td>
           <td>${results.r8.count}</td>
           <td>${Math.round(results.r8.weight).toLocaleString()}</td>
           <td>${results.r8.bonus.toLocaleString()}</td>
         </tr>
         <tr>
-          <td colspan="3">コンボボーナス</td>
+          <td colspan="3">Combo Bonus</td>
           <td>${results.comboBonus.toLocaleString()}</td>
         </tr>
         <tr class="total-row">
-          <td colspan="3">総合スコア</td>
+          <td colspan="3">Total Score</td>
           <td>${Math.round(results.totalScore).toLocaleString()}</td>
         </tr>
       </table>
     `;
     
-    // ティア結果表示
+    // Display tier result
     tierResult.innerHTML = `
       <h3>${results.tier.name}</h3>
-      <p>${Math.round(results.totalScore).toLocaleString()} ポイント</p>
+      <p>${Math.round(results.totalScore).toLocaleString()} points</p>
     `;
     tierResult.className = `card result-card tier-display ${results.tier.className}`;
     
-    // 結果を表示するアニメーション
+    // Animate results display
     animateResults();
   }
   
-  // 結果表示アニメーション
+  // Results display animation
   function animateResults() {
     const rows = document.querySelectorAll('#result-details table tr');
     rows.forEach((row, index) => {

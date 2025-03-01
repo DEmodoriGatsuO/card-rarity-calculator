@@ -1,6 +1,6 @@
-/* 基本スタイル */
+/* Base styles */
 :root {
-    /* カラーパレット */
+    /* Color palette */
     --primary-color: #4361ee;
     --primary-dark: #3a56d4;
     --primary-light: #e6ebff;
@@ -12,7 +12,7 @@
     --text-secondary: #6c757d;
     --border-color: #e9ecef;
     
-    /* ティアカラー */
+    /* Tier colors */
     --tier-common: #A0A0A0;
     --tier-uncommon: #1db954;
     --tier-rare: #3a86ff;
@@ -20,7 +20,7 @@
     --tier-mythic: #f15bb5;
     --tier-legendary: #ff5400;
     
-    /* その他 */
+    /* Other */
     --border-radius: 10px;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
@@ -33,7 +33,7 @@
   }
   
   body {
-    font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-color);
@@ -48,7 +48,7 @@
     padding: 0 15px;
   }
   
-  /* ヘッダー */
+  /* Header */
   header {
     text-align: center;
     margin-bottom: 30px;
@@ -67,7 +67,7 @@
     font-size: 1.1rem;
   }
   
-  /* カード共通スタイル */
+  /* Common card styles */
   .card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
@@ -89,7 +89,7 @@
     font-weight: 600;
   }
   
-  /* 入力エリア */
+  /* Input area */
   .calculator-card {
     background: linear-gradient(135deg, var(--card-bg) 0%, var(--primary-light) 100%);
   }
@@ -105,7 +105,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 12px 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -114,64 +114,41 @@
   .rarity-input label {
     display: flex;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 500;
   }
   
   .rarity-symbol {
-    margin-right: 10px;
-    font-size: 1.3rem;
-  }
-  
-  .rarity-name {
-    color: var(--text-secondary);
-  }
-  
-  .input-control {
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-control button {
-    width: 32px;
-    height: 32px;
-    background-color: var(--primary-light);
-    color: var(--primary-color);
-    border: none;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-  }
-  
-  .input-control button:hover {
-    background-color: var(--primary-color);
-    color: white;
+    font-size: 1.8rem;
   }
   
   input[type="number"] {
-    width: 60px;
-    padding: 8px 5px;
-    margin: 0 10px;
+    width: 80px;
+    padding: 10px;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1.1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
     text-align: center;
     font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
   }
   
-  /* Chrome, Safari, Edge, Opera で矢印を消す */
+  input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  }
+  
+  /* Hide arrows in number inputs for Chrome, Safari, Edge, Opera */
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   
-  /* Firefox で矢印を消す */
+  /* Hide arrows in number inputs for Firefox */
   input[type="number"] {
+    appearance: textfield;
     -moz-appearance: textfield;
   }
   
@@ -201,7 +178,7 @@
     transform: translateY(0);
   }
   
-  /* 結果表示エリア */
+  /* Results display area */
   .results-container {
     opacity: 1;
     transform: translateY(0);
@@ -235,7 +212,7 @@
     font-weight: 500;
   }
   
-  /* ティアごとのスタイル */
+  /* Tier styles */
   .tier-common {
     border-color: var(--tier-common);
     color: var(--tier-common);
@@ -272,7 +249,7 @@
     background-image: linear-gradient(135deg, rgba(255, 84, 0, 0.1) 0%, rgba(255, 84, 0, 0.2) 100%);
   }
   
-  /* 結果詳細テーブル */
+  /* Results details table */
   .result-details table {
     width: 100%;
     border-collapse: collapse;
@@ -309,7 +286,13 @@
     color: var(--primary-color);
   }
   
-  /* 説明エリア */
+  .table-symbol {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  /* Explanation area */
   .result-explanation {
     background-color: #f8f9fa;
     border-left: 4px solid var(--primary-color);
@@ -379,7 +362,7 @@
     background-color: var(--tier-legendary);
   }
   
-  /* フッター */
+  /* Footer */
   footer {
     text-align: center;
     margin-top: 30px;
@@ -388,7 +371,7 @@
     font-size: 0.9rem;
   }
   
-  /* レスポンシブデザイン */
+  /* Responsive design */
   @media (max-width: 600px) {
     body {
       padding: 10px;
@@ -399,9 +382,16 @@
     }
     
     .rarity-input {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
+      padding: 10px 15px;
+    }
+    
+    .rarity-symbol {
+      font-size: 1.5rem;
+    }
+    
+    input[type="number"] {
+      width: 70px;
+      padding: 8px;
     }
     
     .tier-display h3 {
