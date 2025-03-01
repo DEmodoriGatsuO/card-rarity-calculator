@@ -3,35 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カード希少性計算</title>
+    <title>カード希少性計算ツール</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>高レア度カード希少性計算</h1>
+        <header>
+            <h1>カード希少性計算ツール</h1>
+            <p class="subtitle">高レア度カードの価値をスコア化</p>
+        </header>
         
-        <div class="card-inputs">
-            <div class="rarity-input">
-                <label for="r6-count">⭐⭐</label>
-                <input type="number" id="r6-count" min="0" value="0">
-            </div>
-            <div class="rarity-input">
-                <label for="r7-count">⭐⭐⭐</label>
-                <input type="number" id="r7-count" min="0" value="0">
-            </div>
-            <div class="rarity-input">
-                <label for="r8-count">👑</label>
-                <input type="number" id="r8-count" min="0" value="0">
+        <div class="card calculator-card">
+            <h2>カード枚数入力</h2>
+            
+            <div class="rarity-inputs">
+                <div class="rarity-input">
+                    <label for="r6-count">
+                        <span class="rarity-symbol">⭐⭐</span>
+                        <span class="rarity-name">R-6</span>
+                    </label>
+                    <div class="input-control">
+                        <button class="decrement" data-target="r6-count">−</button>
+                        <input type="number" id="r6-count" min="0" value="0">
+                        <button class="increment" data-target="r6-count">＋</button>
+                    </div>
+                </div>
+                
+                <div class="rarity-input">
+                    <label for="r7-count">
+                        <span class="rarity-symbol">⭐⭐⭐</span>
+                        <span class="rarity-name">R-7</span>
+                    </label>
+                    <div class="input-control">
+                        <button class="decrement" data-target="r7-count">−</button>
+                        <input type="number" id="r7-count" min="0" value="0">
+                        <button class="increment" data-target="r7-count">＋</button>
+                    </div>
+                </div>
+                
+                <div class="rarity-input">
+                    <label for="r8-count">
+                        <span class="rarity-symbol">👑</span>
+                        <span class="rarity-name">R-8</span>
+                    </label>
+                    <div class="input-control">
+                        <button class="decrement" data-target="r8-count">−</button>
+                        <input type="number" id="r8-count" min="0" value="0">
+                        <button class="increment" data-target="r8-count">＋</button>
+                    </div>
+                </div>
             </div>
             
-            <button id="calculate-btn">Calculate</button>
+            <button id="calculate-btn" class="calculate-btn">計算する</button>
         </div>
         
-        <div class="results" id="results">
-            <h2>計算結果</h2>
-            <div id="result-details"></div>
-            <div id="tier-result"></div>
+        <div class="results-container hidden" id="results-container">
+            <div class="card result-card tier-display" id="tier-result">
+                <!-- ティア結果がここに表示されます -->
+            </div>
+            
+            <div class="card result-card result-details">
+                <h2>詳細スコア</h2>
+                <div id="result-details">
+                    <!-- 詳細結果がここに表示されます -->
+                </div>
+            </div>
+            
+            <div class="card result-card result-explanation">
+                <h2>スコア説明</h2>
+                <ul>
+                    <li><strong>基本重み</strong>: 各カードの希少性に基づく累進的なスコア</li>
+                    <li><strong>閾値ボーナス</strong>: 特定枚数を超えた場合に適用される追加ボーナス</li>
+                    <li><strong>コンボボーナス</strong>: 複数レア度を組み合わせて所持する場合のボーナス</li>
+                </ul>
+                <div class="tier-legend">
+                    <h3>ティア区分</h3>
+                    <div class="tier-blocks">
+                        <div class="tier-block common">
+                            <span>コモン</span>
+                            <small>0-200</small>
+                        </div>
+                        <div class="tier-block uncommon">
+                            <span>アンコモン</span>
+                            <small>201-1,000</small>
+                        </div>
+                        <div class="tier-block rare">
+                            <span>レア</span>
+                            <small>1,001-2,000</small>
+                        </div>
+                        <div class="tier-block epic">
+                            <span>エピック</span>
+                            <small>2,001-5,000</small>
+                        </div>
+                        <div class="tier-block mythic">
+                            <span>ミシック</span>
+                            <small>5,001-10,000</small>
+                        </div>
+                        <div class="tier-block legendary">
+                            <span>レジェンダリー</span>
+                            <small>10,001+</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        <footer>
+            <p>© 2025 カード希少性計算ツール</p>
+        </footer>
     </div>
     
     <script src="script.js"></script>
