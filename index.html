@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カード希少性計算</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>高レア度カード希少性計算</h1>
+        
+        <div class="card-inputs">
+            <div class="rarity-input">
+                <label for="r6-count">⭐⭐</label>
+                <input type="number" id="r6-count" min="0" value="0">
+            </div>
+            <div class="rarity-input">
+                <label for="r7-count">⭐⭐⭐</label>
+                <input type="number" id="r7-count" min="0" value="0">
+            </div>
+            <div class="rarity-input">
+                <label for="r8-count">👑</label>
+                <input type="number" id="r8-count" min="0" value="0">
+            </div>
+            
+            <button id="calculate-btn">Calculate</button>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>計算結果</h2>
+            <div id="result-details"></div>
+            <div id="tier-result"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
